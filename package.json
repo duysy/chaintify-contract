@@ -3,8 +3,8 @@
         "compile": "yarn hardhat compile",
         "test": "yarn hardhat test",
         "deploy:local": "npx hardhat run --network localhost scripts/deploy.ts",
-        "deploy:testnet": "npx hardhat run --network polygon-mainnet scripts/deploy.ts",
-        "deploy:mainnet": "npx hardhat run --network polygon-mumbai scripts/deploy.ts"
+        "deploy:testnet": "npx hardhat run --network polygon-mumbai scripts/deploy.ts",
+        "deploy:mainnet": "npx hardhat run --network polygon-mainnet scripts/deploy.ts"
     },
     "devDependencies": {
         "@ethersproject/abi": "^5.7.0",

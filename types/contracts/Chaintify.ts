@@ -29,35 +29,34 @@ import type {
 
 export interface ChaintifyInterface extends utils.Interface {
   functions: {
-    "GOLD()": FunctionFragment;
     "balanceOf(address,uint256)": FunctionFragment;
     "balanceOfBatch(address[],uint256[])": FunctionFragment;
-    "customUri(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mint(address,uint256,uint256,string,bytes)": FunctionFragment;
+    "maxSupply(uint256)": FunctionFragment;
+    "mint(address,uint256,uint256,uint256,string,bytes)": FunctionFragment;
     "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
+    "totalSupply(uint256)": FunctionFragment;
     "uri(uint256)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "GOLD"
       | "balanceOf"
       | "balanceOfBatch"
-      | "customUri"
       | "isApprovedForAll"
+      | "maxSupply"
       | "mint"
       | "safeBatchTransferFrom"
       | "safeTransferFrom"
       | "setApprovalForAll"
       | "supportsInterface"
+      | "totalSupply"
       | "uri"
   ): FunctionFragment;
 
-  encodeFunctionData(functionFragment: "GOLD", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
@@ -67,17 +66,18 @@ export interface ChaintifyInterface extends utils.Interface {
     values: [PromiseOrValue<string>[], PromiseOrValue<BigNumberish>[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "customUri",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "maxSupply",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
     values: [
       PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
@@ -113,21 +113,24 @@ export interface ChaintifyInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
+    functionFragment: "totalSupply",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "uri",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
 
-  decodeFunctionResult(functionFragment: "GOLD", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "balanceOfBatch",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "customUri", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "maxSupply", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeBatchTransferFrom",
@@ -143,6 +146,10 @@ export interface ChaintifyInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "uri", data: BytesLike): Result;
@@ -235,8 +242,6 @@ export interface Chaintify extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    GOLD(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     balanceOf(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
@@ -249,21 +254,22 @@ export interface Chaintify extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber[]]>;
 
-    customUri(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     isApprovedForAll(
       account: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    maxSupply(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     mint(
       to_: PromiseOrValue<string>,
       id_: PromiseOrValue<BigNumberish>,
       amount_: PromiseOrValue<BigNumberish>,
+      maxSupply_: PromiseOrValue<BigNumberish>,
       uri_: PromiseOrValue<string>,
       data_: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -298,13 +304,16 @@ export interface Chaintify extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    totalSupply(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     uri(
       id_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
   };
-
-  GOLD(overrides?: CallOverrides): Promise<BigNumber>;
 
   balanceOf(
     account: PromiseOrValue<string>,
@@ -318,21 +327,22 @@ export interface Chaintify extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber[]>;
 
-  customUri(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   isApprovedForAll(
     account: PromiseOrValue<string>,
     operator: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  maxSupply(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   mint(
     to_: PromiseOrValue<string>,
     id_: PromiseOrValue<BigNumberish>,
     amount_: PromiseOrValue<BigNumberish>,
+    maxSupply_: PromiseOrValue<BigNumberish>,
     uri_: PromiseOrValue<string>,
     data_: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -367,14 +377,17 @@ export interface Chaintify extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  totalSupply(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   uri(
     id_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
 
   callStatic: {
-    GOLD(overrides?: CallOverrides): Promise<BigNumber>;
-
     balanceOf(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
@@ -387,21 +400,22 @@ export interface Chaintify extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber[]>;
 
-    customUri(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     isApprovedForAll(
       account: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    maxSupply(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     mint(
       to_: PromiseOrValue<string>,
       id_: PromiseOrValue<BigNumberish>,
       amount_: PromiseOrValue<BigNumberish>,
+      maxSupply_: PromiseOrValue<BigNumberish>,
       uri_: PromiseOrValue<string>,
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -435,6 +449,11 @@ export interface Chaintify extends BaseContract {
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    totalSupply(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     uri(
       id_: PromiseOrValue<BigNumberish>,
@@ -492,8 +511,6 @@ export interface Chaintify extends BaseContract {
   };
 
   estimateGas: {
-    GOLD(overrides?: CallOverrides): Promise<BigNumber>;
-
     balanceOf(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
@@ -506,14 +523,14 @@ export interface Chaintify extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    customUri(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     isApprovedForAll(
       account: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    maxSupply(
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -521,6 +538,7 @@ export interface Chaintify extends BaseContract {
       to_: PromiseOrValue<string>,
       id_: PromiseOrValue<BigNumberish>,
       amount_: PromiseOrValue<BigNumberish>,
+      maxSupply_: PromiseOrValue<BigNumberish>,
       uri_: PromiseOrValue<string>,
       data_: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -552,6 +570,11 @@ export interface Chaintify extends BaseContract {
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    totalSupply(
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -562,8 +585,6 @@ export interface Chaintify extends BaseContract {
   };
 
   populateTransaction: {
-    GOLD(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     balanceOf(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
@@ -576,14 +597,14 @@ export interface Chaintify extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    customUri(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     isApprovedForAll(
       account: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    maxSupply(
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -591,6 +612,7 @@ export interface Chaintify extends BaseContract {
       to_: PromiseOrValue<string>,
       id_: PromiseOrValue<BigNumberish>,
       amount_: PromiseOrValue<BigNumberish>,
+      maxSupply_: PromiseOrValue<BigNumberish>,
       uri_: PromiseOrValue<string>,
       data_: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -622,6 +644,11 @@ export interface Chaintify extends BaseContract {
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    totalSupply(
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

@@ -30,7 +30,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
       jsonRpcUrl = "https://matic-mainnet.chainstacklabs.com";
       break;
     case "polygon-mumbai":
-      jsonRpcUrl = "https://matic-mumbai.chainstacklabs.com";
+      jsonRpcUrl = "https://rpc-mumbai.maticvigil.com";
       break;
     default:
       jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + infuraApiKey;
